@@ -1,0 +1,20 @@
+DIR ?= dir
+MALICIOUS_DIR ?= malicious_dir
+INTERVAL ?= 3
+
+.PHONY: all setup run restore clean
+
+all: setup run
+
+setup:
+	mkdir -p $(MALICIOUS_DIR)
+	mkdir -p $(DIR)
+
+run: setup
+	./antivirusd.sh $(DIR) $(MALICIOUS_DIR) $(INTERVAL)
+
+restore: setup
+	./restore.sh $(DIR) $(MALICIOUS_DIR)
+
+clean:
+	rm -rf directory-info.last directory-info.new
